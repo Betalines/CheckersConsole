@@ -148,8 +148,42 @@ namespace Checkers
             }
             return false;
         }
+        public bool CanAttackInDirection(CheckerBoard board, int directionX, int directionY)
+        {
+            // directionX i directionY sa rowne 1 lub -1, dla np. directionX = 1, directonY = -1 sprawdzamy czy mozna zaatakowac na poludniowy zachód
+            Position iterPosition = new Position(position.x, position.y);
+            if((directionX == 1 || directionX == -1) && (directionY == 1 || directionY == -1))
+            {
+                iterPosition.x += directionX;
+                iterPosition.y += directionY;
+                while(iterPosition.IsPositionInRange())
+                {
+                    if(board[iterPosition] != null)
+                    {
+                        if (board[iterPosition].pieceColor == pieceColor)
+                            return false;
+                        else
+                        {
+                            iterPosition.x += directionX;
+                            iterPosition.y += directionY;
+                            if(iterPosition.IsPositionInRange() && board[iterPosition] == null)
+                            {
+                                return true;
+                            }
+                            return false;
+                        }
+                    }
+                    iterPosition.x += directionX;
+                    iterPosition.y += directionY;
+                }
+            }
+            return false;
+
+        }
         public override bool CanAttack(CheckerBoard board)
-        { throw new NotImplementedException(); }
+        {
+            return CanAttackInDirection(board, 1, 1) || CanAttackInDirection(board, 1, -1) || CanAttackInDirection(board, -1, -1) || CanAttackInDirection(board, -1, 1);
+        }
 
         public override bool IsCorrectDestination(bool attackFlag, Position destination, CheckerBoard board)
         {
