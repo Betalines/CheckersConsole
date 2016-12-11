@@ -76,11 +76,17 @@ namespace Checkers
         }
 
         public void Move(CheckerBoard board, Position to)
-        { throw new NotImplementedException(); }
+        {
+            board[this.position] = null;
+            board[to] = this;
+            this.position = to;
+        }
 
         public void RemovePiece(CheckerBoard board, List<Piece> pieces)
-        { throw new NotImplementedException();
+        {
             //usuwa pionek z listy i z planszy
+            board[this.position] = null;
+            pieces.Remove(this);
         }
 
         public bool IsBecomeQueen()
