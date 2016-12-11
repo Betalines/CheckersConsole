@@ -17,6 +17,12 @@ namespace Checkers
                     throw new IndexOutOfRangeException();
                 return board[pos.x, pos.y];
             }
+            set
+            {
+                if (!pos.IsPositionInRange())
+                    throw new IndexOutOfRangeException();
+                board[pos.x, pos.y] = value;
+            }
         }
         public Piece this[int x, int y]
         {
@@ -31,9 +37,25 @@ namespace Checkers
         public CheckerBoard()
         {
             //ustawia pionki w board
-            throw new NotImplementedException();
+            board = new Piece[Config.Cfg.board_size, Config.Cfg.board_size];
+
+            // dolna czesc z bialymi pionkami
+            for (int y = 0; y < 3; y++)
+            {
+                for (int x = 0; x < Config.Cfg.board_size; x++)
+                    if ((y % 2 == 0 && x % 2 == 0) || (y % 2 == 1 && x % 2 == 1))
+                        board[x, y] = new Piece(Color.WHITE, new Position(x, y));
+            }
+
+            // gorna czesc z czarnymi pionkami
+            for (int y = 5; y < Config.Cfg.board_size; y++)
+            {
+                for (int x = 0; x < Config.Cfg.board_size; x++)
+                    if ((y % 2 == 0 && x % 2 == 0) || (y % 2 == 1 && x % 2 == 1))
+                        board[x, y] = new Piece(Color.BLACK, new Position(x, y));
+            }
         }
-        
+
         public CheckerBoard(int[,] array)
         {
             board = new Piece[Config.Cfg.board_size, Config.Cfg.board_size];
