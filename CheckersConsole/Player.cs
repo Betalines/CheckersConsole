@@ -16,8 +16,50 @@ namespace Checkers
             color = c;
             pieces = _pieces;
         }
-        public Piece SelectPiece()
-        { throw new NotImplementedException();
+        public Piece SelectPiece(CheckerBoard board)
+        {
+            while(true)
+            {
+                Console.WriteLine("Write the x coordinate");
+                string x = Console.ReadLine();
+                Console.WriteLine("Write the y coordinate");
+                string y = Console.ReadLine();
+                int coordX = int.Parse(x);
+                int coordY = int.Parse(y);
+                if (coordX >= 0 && coordX < Config.Cfg.board_size && coordY >= 0 && coordY < Config.Cfg.board_size)
+                {
+                    if (board[coordX, coordY] == null)
+                    {
+                        Console.WriteLine("No piece on this position !!!");
+                        continue;
+                    }
+                    if (!IsCorrectPiece(board[coordX, coordY]))
+                    {
+                        Console.WriteLine("Not your piece !!!");
+                        continue;
+                    }
+                    return board[coordX, coordY];
+                }
+                Console.WriteLine("Bad coordinates");
+            }
+            //wprowadzenie pozycje pionkow
+        }
+        public Position SelectDestination(CheckerBoard board)
+        {
+            while (true)
+            {
+                Console.WriteLine("Write the x coordinate");
+                string x = Console.ReadLine();
+                Console.WriteLine("Write the y coordinate");
+                string y = Console.ReadLine();
+                int coordX = int.Parse(x);
+                int coordY = int.Parse(y);
+                if (coordX >= 0 && coordX < Config.Cfg.board_size && coordY >= 0 && coordY < Config.Cfg.board_size)
+                {
+                    return new Position(coordX, coordY);
+                }
+                Console.WriteLine("Bad coordinates");
+            }
             //wprowadzenie pozycje pionkow
         }
 
@@ -37,7 +79,36 @@ namespace Checkers
         }
 
         public void Input(out Piece piece, out Position destination, CheckerBoard board)
-        { throw new NotImplementedException();
+        {
+            piece = null;
+            destination = new Position(-1,-1);
+            bool attackPossible = IsPossibleAttack(board);
+            if (pieces.Count == 0)
+                return;
+            while (true)
+            {
+                Console.WriteLine("Select piece !!!");
+                piece = SelectPiece(board);
+                Console.WriteLine("Select destination !!!");
+                destination = SelectDestination(board);
+
+                if (attackPossible)
+                {
+                    if (piece.IsCorrectDestination(true, destination, board))
+                    {
+                        break;
+                    }
+                    Console.WriteLine("You have to atack !!!");
+                }
+                else
+                {
+                    if (piece.IsCorrectDestination(false, destination, board))
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Can't move your piece to this position !!!");
+                }
+            }
             //zwraca pionek
             //i poprawny cel w sensie ze jest puste pole
         }
