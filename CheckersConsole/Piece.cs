@@ -152,7 +152,43 @@ namespace Checkers
         { throw new NotImplementedException(); }
 
         public override bool IsCorrectDestination(bool attackFlag, Position destination, CheckerBoard board)
-        { throw new NotImplementedException(); }
+        {
+            List<Piece> piecesBetweenDestAndPos = new List<Piece>();
+            Position iterPosition = new Position(position.x, position.y);
+            int directionX = destination.x > position.x ? 1 : -1;
+            int directionY = destination.y > position.y ? 1 : -1;
+            if (!destination.IsPositionInRange())
+            {
+                return false;
+            }
+            if (attackFlag)
+            {
+                return CheckAttack(board, destination);
+            }
+            if(!position.IsPositionOnBias(destination))
+            {
+                return false;
+            }
+            if(board[destination] != null)
+            {
+                return false;
+            }
+            while (iterPosition.x != destination.x) // wiemy ze jestesmy na przekatnej, porownujemy tylko x
+            {
+                        iterPosition.x += directionX;
+                        iterPosition.y += directionY;
+                        if (board[iterPosition] != null)
+                        {
+                            piecesBetweenDestAndPos.Add(board[iterPosition]);
+                        }
+                    
+            }
+            if (piecesBetweenDestAndPos.Count == 0)
+            {
+                    return true;
+            }
+            return false;
+        }
     }
 }
 
