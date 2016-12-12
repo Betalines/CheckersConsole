@@ -82,6 +82,7 @@ namespace Checkers
             else Console.WriteLine("IsCorrectPiece: " + myPlayer.IsCorrectPiece(myBoard[2, 2]));
             myBoard.DrawBoard(myPlayer);
             Console.WriteLine("CanAttack: " + myBoard[4, 2].CanAttack(myBoard));
+            Console.WriteLine("Mama Kacpra");
             Console.ReadKey();
 
         }

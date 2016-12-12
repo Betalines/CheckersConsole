@@ -154,11 +154,81 @@ namespace Checkers
             }
             return false;
         }
+        public bool CanAttackInDirection(CheckerBoard board, int directionX, int directionY)
+        {
+            // directionX i directionY sa rowne 1 lub -1, dla np. directionX = 1, directonY = -1 sprawdzamy czy mozna zaatakowac na poludniowy zachód
+            Position iterPosition = new Position(position.x, position.y);
+            if((directionX == 1 || directionX == -1) && (directionY == 1 || directionY == -1))
+            {
+                iterPosition.x += directionX;
+                iterPosition.y += directionY;
+                while(iterPosition.IsPositionInRange())
+                {
+                    if(board[iterPosition] != null)
+                    {
+                        if (board[iterPosition].pieceColor == pieceColor)
+                            return false;
+                        else
+                        {
+                            iterPosition.x += directionX;
+                            iterPosition.y += directionY;
+                            if(iterPosition.IsPositionInRange() && board[iterPosition] == null)
+                            {
+                                return true;
+                            }
+                            return false;
+                        }
+                    }
+                    iterPosition.x += directionX;
+                    iterPosition.y += directionY;
+                }
+            }
+            return false;
+
+        }
         public override bool CanAttack(CheckerBoard board)
-        { throw new NotImplementedException(); }
+        {
+            return CanAttackInDirection(board, 1, 1) || CanAttackInDirection(board, 1, -1) || CanAttackInDirection(board, -1, -1) || CanAttackInDirection(board, -1, 1);
+        }
 
         public override bool IsCorrectDestination(bool attackFlag, Position destination, CheckerBoard board)
-        { throw new NotImplementedException(); }
+        {
+            List<Piece> piecesBetweenDestAndPos = new List<Piece>();
+            Position iterPosition = new Position(position.x, position.y);
+            int directionX = destination.x > position.x ? 1 : -1;
+            int directionY = destination.y > position.y ? 1 : -1;
+            if (!destination.IsPositionInRange())
+            {
+                return false;
+            }
+            if (attackFlag)
+            {
+                return CheckAttack(board, destination);
+            }
+            if(!position.IsPositionOnBias(destination))
+            {
+                return false;
+            }
+            if(board[destination] != null)
+            {
+                return false;
+            }
+            while (iterPosition.x != destination.x) // wiemy ze jestesmy na przekatnej, porownujemy tylko x
+            {
+                        iterPosition.x += directionX;
+                        iterPosition.y += directionY;
+                        if (board[iterPosition] != null)
+                        {
+                            piecesBetweenDestAndPos.Add(board[iterPosition]);
+                        }
+                    
+            }
+            if (piecesBetweenDestAndPos.Count == 0)
+            {
+                    return true;
+            }
+            return false;
+        }
     }
 }
 
