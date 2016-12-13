@@ -66,23 +66,30 @@ namespace Checkers
         {
             // mozna sobie cos posprawdzac
             Console.WriteLine("Checkers");
-            int[,] array = { {1, 0, 1, 0, 1, 0, 1, 0},
-                             {0, 1, 0, 1, 0, 1, 0, 1},
-                             {1, 0, 1, 0, 1, 0, 1, 0},
-                             {0, 0, 0, 0, 0, 0, 0, 0},
-                             {0, 0, 0, 2, 0, 0, 0, 0},
-                             {2, 0, 2, 0, 1, 0, 2, 0},
+            int[,] array = { {2, 0, 2, 0, 2, 0, 2, 0},
                              {0, 2, 0, 2, 0, 2, 0, 2},
                              {2, 0, 2, 0, 2, 0, 2, 0},
+                             {0, 0, 0, 0, 0, 0, 0, 0},
+                             {0, 0, 0, 0, 0, 0, 0, 0},
+                             {1, 0, 1, 0, 1, 0, 1, 0},
+                             {0, 1, 0, 1, 0, 1, 0, 1},
+                             {1, 0, 1, 0, 1, 0, 1, 0},
+                            
+                             
                                 };
-            var myBoard = new CheckerBoard(array);
-            var myPlayer = new Player(Color.BLACK, null);
+            var myBoard = new CheckerBoard();
+            var myPlayer = new Player(Color.BLACK, myBoard);
             if (myBoard[2, 2] == null)
                 Console.WriteLine("NULL REFERENCE");
             else Console.WriteLine("IsCorrectPiece: " + myPlayer.IsCorrectPiece(myBoard[2, 2]));
             myBoard.DrawBoard(myPlayer);
+
             Console.WriteLine("CanAttack: " + myBoard[4, 2].CanAttack(myBoard));
-            Console.WriteLine("Mama Kacpra");
+            Position dest;
+            Piece myPiece;
+            myPlayer.Input(out myPiece, out dest, myBoard);
+            myPiece.Move(myBoard, dest);
+            myBoard.DrawBoard(myPlayer);
             Console.ReadKey();
 
         }

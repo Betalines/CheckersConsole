@@ -11,10 +11,20 @@ namespace Checkers
         protected Color color;
         protected List<Piece> pieces;
 
-        public Player(Color c, List<Piece> _pieces)
+        // Konstruktor tworzy gracza o podanym kolorze i liscie pionkow z planszy
+        public Player(Color c, CheckerBoard board)
         {
             color = c;
-            pieces = _pieces;
+            pieces = new List<Piece>();
+
+            for (int y = Config.Cfg.board_size - 1; y >= 0; y--)
+            {
+                for (int x = 0; x < Config.Cfg.board_size; x++)
+                {
+                    if (board[x, y] != null && board[x, y].pieceColor == color)
+                        pieces.Add(board[x, y]);
+                }
+            }
         }
         public Piece SelectPiece(CheckerBoard board)
         {
@@ -72,6 +82,8 @@ namespace Checkers
         {
             //przechodzi po liscie pionkow i jesli jest mozliwe bicie dla ktoregos pionka
             //zwraca true
+            if (pieces == null)
+                return false;
             foreach (Piece x in pieces)
                 if (x.CanAttack(board))
                     return true;

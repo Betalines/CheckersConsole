@@ -73,15 +73,21 @@ namespace Checkers
         {
             for (int y = board.GetLength(1) - 1; y >= 0; y--)
             {
+                Console.Write("{0}   ", y);
                 for (int x = 0; x < board.GetLength(0); x++)
                 {
                     if (board[x, y] != null)
-                        Console.Write(board[x, y] + " ");
+                        Console.Write(board[x, y] + "  ");
                     else
-                        Console.Write("* ");
+                        Console.Write("*  ");
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine();
+            Console.Write("    ");
+            for (int i = 0; i < board.GetLength(0); i++)
+                Console.Write("{0}  ", i);
+            Console.WriteLine();
         }
 
 
