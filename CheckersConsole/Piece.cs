@@ -90,16 +90,27 @@ namespace Checkers
         }
 
         public bool IsBecomeQueen()
-        { throw new NotImplementedException();
+        {
+            if (pieceColor == Color.BLACK && position.y == 0)
+                return true;
+            return pieceColor == Color.WHITE && position.y == Config.Cfg.board_size - 1 ? true : false;
             //sprawdza czy pionek jest dama
         }
 
         public void ChangePieceToQueen(CheckerBoard board, List<Piece> pieces)
-        { throw new NotImplementedException(); }
-
-        public Piece FunkcjaCudzika(Position destination)
         {
-            throw new NotImplementedException();
+            pieces[pieces.IndexOf(this)] = (board[this.position] = new Queen(this.pieceColor, this.position));
+        }
+
+        public Piece FunkcjaCudzika(CheckerBoard board, Position destination)
+        {
+            int xx = (destination.x - position.x) < 0 ? -1 : 1,
+                yy = (destination.y - position.y) < 0 ? -1 : 1;
+
+            for (int x = position.x, y = position.y; x != destination.x; x += xx, y += yy)
+                if (board[x, y] != null) //raczej juz przed wejsciem mamy pewnosc ze -> && board[x, y].pieceColor != this.pieceColor)
+                    return board[x, y];
+            return null;
             //zwraca wystepujacego pionka ktory zostal przeskoczony podczas bicia
         }
 

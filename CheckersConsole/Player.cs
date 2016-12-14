@@ -141,7 +141,7 @@ namespace Checkers
 
             if(attackFlag)
             {
-                Piece deletePiece = piece.FunkcjaCudzika(destination);
+                Piece deletePiece = piece.FunkcjaCudzika(board, destination);
                 deletePiece.RemovePiece(board, pieces);
             }
             piece.Move(board, destination);
@@ -158,7 +158,7 @@ namespace Checkers
                             break;
                 }
                 
-                  Piece deletePiece = piece.FunkcjaCudzika(destination);
+                  Piece deletePiece = piece.FunkcjaCudzika(board,destination);
                   deletePiece.RemovePiece(board, this.pieces);
                   piece.Move(board, destination);
             }
