@@ -25,8 +25,16 @@ namespace Checkers
 
         public void InitGame()
         {
+            Random gen = new Random(DateTime.Now.Millisecond);
 
-            throw new NotImplementedException();
+            Color col1 = gen.Next(1, 100) % 2 == 0 ? Color.BLACK : Color.WHITE; 
+
+            board = new CheckerBoard();
+
+            player1 = new Player(col1, board);
+            player2 = new Player(col1 == Color.BLACK ? Color.WHITE : Color.BLACK, board);
+
+            currentPlayer = col1 == Color.WHITE ? player1 : player2;
 
             // kolor dla gracza wylosowac
             // ustawic graczy, plansze stworzyc
