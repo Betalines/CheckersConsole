@@ -50,13 +50,18 @@ namespace Checkers
 
         private bool IsGameOver()
         {
-            throw new NotImplementedException();
+            // jeden z graczy nie ma pionkow
+            if (player1.numberOfPieces == 0 || player2.numberOfPieces == 0)
+                return true;
+            // gracz nie ma ruchu
 
+            return false;
         }
 
         private void AnnounceWinning()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("!!! GAME OVER !!!");
+
         }
     }
 
@@ -82,6 +87,9 @@ namespace Checkers
             else Console.WriteLine("IsCorrectPiece: " + myPlayer.IsCorrectPiece(myBoard[2, 2]));
             myBoard.DrawBoard(myPlayer);
             Console.WriteLine("CanAttack: " + myBoard[4, 2].CanAttack(myBoard));
+
+            var BetaBoard = new CheckerBoard();
+            BetaBoard.DrawBoard(myPlayer);
             Console.ReadKey();
 
         }

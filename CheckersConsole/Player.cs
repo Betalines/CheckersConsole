@@ -16,6 +16,16 @@ namespace Checkers
             color = c;
             pieces = _pieces;
         }
+
+        // wlasciwosc zwracajaca liczbe pionkow
+        public int numberOfPieces
+        {
+            get
+            {
+                return pieces.Count;
+            }
+        }
+
         public Piece SelectPiece()
         { throw new NotImplementedException();
             //wprowadzenie pozycje pionkow
